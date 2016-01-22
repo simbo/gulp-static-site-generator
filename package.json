@@ -1,0 +1,44 @@
+{
+  "name": "gulp-static-site-generator",
+  "version": "0.1.0",
+  "description": "A static site generator for gulp.",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha -R spec",
+    "lint": "jshint ./lib/*.js & jscs ./lib/*.js",
+    "cover": "istanbul cover ./node_modules/.bin/_mocha -- -R spec",
+    "watch": "mocha -R spec -w",
+    "codeclimate": "codeclimate-test-reporter < coverage/lcov.info"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/simbo/gulp-static-site-generator.git"
+  },
+  "author": "Simon Lepel <simbo@simbo.de> (http://simbo.ninja)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/simbo/gulp-static-site-generator/issues"
+  },
+  "homepage": "https://github.com/simbo/gulp-static-site-generator#readme",
+  "os": [
+    "darwin",
+    "linux"
+  ],
+  "dependencies": {
+    "gray-matter": "^2.0.2",
+    "gulp-util": "^3.0.7",
+    "highlight.js": "^9.1.0",
+    "jade": "^1.11.0",
+    "marked": "^0.3.5",
+    "merge": "^1.2.0",
+    "slug": "^0.9.1",
+    "through2": "^2.0.0"
+  },
+  "devDependencies": {
+    "codeclimate-test-reporter": "^0.2.1",
+    "eslint": "^1.10.3",
+    "eslint-config-simbo": "^0.2.0",
+    "istanbul": "^0.4.2",
+    "mocha": "^2.3.4"
+  }
+}

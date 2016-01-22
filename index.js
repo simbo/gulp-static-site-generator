@@ -1,0 +1,255 @@
+'use strict';
+
+var fs = require('fs'),
+    path = require('path');
+
+var grayMatter = require('gray-matter'),
+    gUtil = require('gulp-util'),
+    jade = require('jade'),
+    marked = require('marked'),
+    merge = require('merge'),
+    highlightjs = require('highlight.js'),
+    slug = require('slug'),
+    through = require('through2');
+
+var chalk = gUtil.colors,
+    log = gUtil.log,
+    logFlag = chalk.gray('[') + chalk.magenta('SSG') + chalk.gray(']'),
+    PluginError = gUtil.PluginError;
+
+/**
+ * static site generator gulp plugin
+ * @param  {options} options custom options (see readme)
+ * @return {object}          destroyable transform object
+ */
+function staticSiteGenerator(options) {
+
+  var buffer = {},
+      layoutCache = {},
+      templateCache = {};
+
+  options = merge.recursive({
+    baseUrl: '/',
+    data: {},
+    defaultLayout: 'base.jade',
+    jade: jade,
+    jadeOptions: {
+      basedir: path.join(process.cwd(), 'src')
+    },
+    layoutPath: 'src/layouts',
+    marked: marked,
+    markedOptions: {
+      breaks: true,
+      highlight: highlightCode
+    },
+    prettyUrls: true,
+    regexpHtml: /\.html/i,
+    regexpMarkdown: /\.(md|markdown)$/i,
+    regexpTemplate: /\.jade/i,
+    renderTemplate: renderTemplate,
+    renderMarkdown: renderMarkdown,
+    slugify: true,
+    slugOptions: {
+      mode: 'rfc3986',
+      remove: /^\./g
+    }
+  }, options || {});
+
+  options.marked.setOptions(options.markedOptions);
+  options.jade.filters.markdown = options.renderMarkdown;
+
+  return through.obj(transformChunk);
+
+  /**
+   * transforms a stream chunk
+   * @param  {object}   chunk    chunk object
+   * @param  {string}   encoding file encoding
+   * @param  {Function} done     callback
+   * @return {undefined}
+   */
+  function transformChunk(chunk, encoding, done) {
+    if (chunk.isNull()) return done();
+    if (chunk.isStream()) return this.emit('error', new PluginError(logFlag, 'Streaming not supported'));
+    chunk.isMarkdown = options.regexpMarkdown.test(chunk.relative);
+    chunk.isTemplate = options.regexpTemplate.test(chunk.relative);
+    chunk.isHtml = options.regexpHtml.test(chunk.relative);
+    if (!(chunk.isMarkdown || chunk.isTemplate || chunk.isHtml)) {
+      return done(null, chunk);
+    }
+    transformChunkData(chunk);
+    if (buffer.hasOwnProperty(chunk.relative)) {
+      logDuplicate(chunk);
+      return done();
+    }
+    transformChunkContents.call(this, chunk);
+    buffer[chunk.relative] = chunk;
+    done(null, chunk);
+  }
+
+  /**
+   * merge site data, options data, frontmatter data into chunk data
+   * @param  {object} chunk stream chunk object
+   * @return {object}       chunk with transformed data
+   */
+  function transformChunkData(chunk) {
+    var matter = grayMatter(String(chunk.contents)),
+        urlPath = chunk.hasOwnProperty('data') && chunk.data.urlPath ?
+          chunk.data.urlPath : getUrlPath(chunk.relative),
+        url = path.normalize(path.join(options.baseUrl, urlPath));
+    chunk.data = merge.recursive(
+      {
+        baseUrl: options.baseUrl,
+        contents: '',
+        draft: false,
+        layout: options.defaultLayout,
+        path: urlPath,
+        filename: chunk.path,
+        relativeFilename: chunk.relative,
+        url: options.prettyUrls ?
+          path.normalize(path.dirname(url) + '/') : url
+      },
+      options.data || {},
+      chunk.data || {},
+      matter.data || {}
+    );
+    chunk.contents = new Buffer(matter.content);
+    chunk.path = path.join(chunk.base, urlPath);
+    return chunk;
+  }
+
+  /**
+   * render chunk contents with markdown renderer, wrap layout, render template
+   * @param  {object} chunk stream chunk object
+   * @return {object}       chunk with transformed contents
+   */
+  function transformChunkContents(chunk) {
+    var contents = String(chunk.contents);
+    try {
+      if (chunk.isMarkdown) {
+        contents = options.renderMarkdown(contents);
+      }
+      if (chunk.isTemplate) {
+        contents = options.renderTemplate(contents, chunk.data, chunk.data.filename);
+      }
+      chunk.contents = new Buffer(contents);
+      if (chunk.data.layout) applyLayout(chunk);
+    } catch (err) {
+      this.emit('error', new PluginError(logFlag, err.stack || err));
+    }
+    return chunk;
+  }
+
+  /**
+   * render a template string with optional data
+   * @param  {string} contents template
+   * @param  {object} data     optional template data
+   * @param  {object} filename optional template path for importing/mergeing
+   * @return {string}          rendered template
+   */
+  function renderTemplate(contents, data, filename) {
+    if (!templateCache.hasOwnProperty(contents)) {
+      templateCache[contents] = options.jade.compile(
+        contents,
+        merge.recursive({}, options.jadeOptions, {
+          filename: filename
+        })
+      );
+    }
+    return templateCache[contents](data);
+  }
+
+  /**
+   * render a markdown string to html
+   * @param  {string} contents markdown
+   * @return {string}          html
+   */
+  function renderMarkdown(contents) {
+    return options.marked(contents).trim();
+  }
+
+  /**
+   * set chunk contents as template data property and render it with a layout
+   * @param  {object} chunk stream chunk object
+   * @return {object}       chunk with applied layout
+   */
+  function applyLayout(chunk) {
+    chunk.data.contents = String(chunk.contents);
+    var layout = getLayout(chunk.data.layout),
+        contents = options.renderTemplate(layout.contents, chunk.data, layout.path);
+    chunk.contents = new Buffer(contents);
+    return chunk;
+  }
+
+  /**
+   * highlight a sourcecode string for given language
+   * @param  {string}   code sourcecode
+   * @param  {string}   lang language
+   * @return {string}        highlighted script in html
+   */
+  function highlightCode(code, lang) {
+    code = code.trim();
+    if (lang && highlightjs.getLanguage(lang)) {
+      return highlightjs.highlight(lang, code).value;
+    }
+    return highlightjs.highlightAuto(code).value;
+  }
+
+  /**
+   * transform a file path into an url
+   * @param  {string} filePath file path
+   * @return {string}          url
+   */
+  function getUrlPath(filePath) {
+    var urlPath = path.join(
+      path.dirname(filePath),
+      path.basename(filePath, path.extname(filePath))
+    );
+    if (options.slugify) {
+      urlPath = urlPath.split('/').map(function(part) {
+        return slug(part, options.slug);
+      }).join('/');
+    }
+    urlPath += !options.prettyUrls || (/(^|\/)index$/i).test(urlPath) ?
+      '.html' : '/index.html';
+    return urlPath;
+  }
+
+  /**
+   * read a layout file from given path; store it in cache object for further
+   * usage; return object with layout contents and absolute path
+   * @param  {string}   layout path to layout
+   * @return {object}          layout contents and path
+   */
+  function getLayout(layout) {
+    if (!layoutCache.hasOwnProperty(layout) || !layoutCache[layout]) {
+      var layoutPath = path.join(
+        path.isAbsolute(options.layoutPath) ?
+          options.layoutPath : path.join(process.cwd(), options.layoutPath),
+        layout
+      );
+      layoutCache[layout] = {
+        contents: fs.readFileSync(layoutPath, 'utf8'),
+        path: layoutPath
+      };
+    }
+    return layoutCache[layout];
+  }
+
+  /**
+   * log possible output overwrite to console
+   * @param  {object} chunk stream chunk object
+   * @return {undefined}
+   */
+  function logDuplicate(chunk) {
+    log(logFlag,
+      chalk.red('WARNING: ') +
+      chalk.yellow(chunk.data.relativeFilename) +
+      ' outputs to same url as ' +
+      chalk.yellow(buffer[chunk.relative].data.relativeFilename) +
+      '. ' + chalk.red('Skipping...')
+    );
+  }
+
+}
+
+module.exports = staticSiteGenerator;
