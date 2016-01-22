@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bar | Example</title>
+    <link rel="stylesheet" href="/assets/example.css">
+    <link rel="stylesheet" href="/assets/highlight.css">
+  </head>
+  <body>
+    <header>
+      <nav><ul>
+<li><a href="/">index</a></li>
+<li><a href="/foo/">foo</a></li>
+<li><a href="/bar/">bar</a></li>
+<li><a href="/bar/baz/">baz</a></li>
+<li><a href="/plain/">plain</a></li>
+</ul>
+      </nav>
+    </header>
+    <main><h1 id="some-markdown-in-jade">Some markdown in jade</h1>
+<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+<pre><code class="lang-js"><span class="hljs-keyword">var</span> express = <span class="hljs-built_in">require</span>(<span class="hljs-string">'express'</span>);
+<span class="hljs-keyword">var</span> app = express();
+
+app.get(<span class="hljs-string">'/'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">req, res</span>) </span>{
+  res.send(<span class="hljs-string">'Hello World!'</span>);
+});
+
+app.listen(<span class="hljs-number">3000</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Example app listening on port 3000!'</span>);
+});
+</code></pre>
+    </main>
+    <footer>
+      <p><strong>★</strong> <code>/bar/</code> (generated from <code>bar.jade</code>)</p>
+    </footer>
+  </body>
+</html>

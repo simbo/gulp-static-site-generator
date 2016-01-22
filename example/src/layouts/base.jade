@@ -1,0 +1,33 @@
+doctype html
+html
+
+  head
+    block head
+      meta(charset='utf-8')
+      meta(name='viewport', content='width=device-width, initial-scale=1')
+      title= (title ? title + ' | ' : '') + 'Example'
+      block styles
+        link(rel="stylesheet", href="/assets/example.css")
+
+  body
+    block body
+
+      header
+        block header
+          nav
+            :markdown
+              - [index](/)
+              - [foo](/foo/)
+              - [bar](/bar/)
+              - [baz](/bar/baz/)
+              - [plain](/plain/)
+
+      main
+        block main
+          h1= title
+          | !{contents}
+
+      footer
+        block footer
+          p #[strong ★] #[code= url] (generated from #[code= relativeFilename])
+

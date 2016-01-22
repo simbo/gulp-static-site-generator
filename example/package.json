@@ -1,0 +1,17 @@
+{
+  "name": "gulp-static-site-generator-example",
+  "version": "0.1.0",
+  "description": "Demo for gulp-static-site-generator",
+  "private": true,
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Simon Lepel <simbo@simbo.de> (http://simbo.ninja)",
+  "license": "MIT",
+  "devDependencies": {
+    "del": "^2.2.0",
+    "gulp": "^3.9.0",
+    "gulp-serve": "^1.2.0"
+  }
+}

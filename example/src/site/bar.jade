@@ -1,0 +1,29 @@
+---
+title: Bar
+layout: false
+---
+
+extends /layouts/base.jade
+
+block append styles
+  link(rel="stylesheet", href="/assets/highlight.css")
+
+block main
+  :markdown
+    # Some markdown in jade
+
+    Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+
+    ``` js
+    var express = require('express');
+    var app = express();
+
+    app.get('/', function (req, res) {
+      res.send('Hello World!');
+    });
+
+    app.listen(3000, function () {
+      console.log('Example app listening on port 3000!');
+    });
+    ```
+

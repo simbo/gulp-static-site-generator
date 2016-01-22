@@ -1,0 +1,62 @@
+body {
+  background: ivory;
+  color: black;
+  font: 400 16px/1.5 sans-serif;
+}
+
+a {
+  color: dodgerblue;
+  text-decoration: none;
+}
+
+a:hover,
+a:focus {
+  text-decoration: underline;
+}
+
+nav ul {
+  padding-left: 0;
+  list-style-type: none;
+}
+
+nav ul li {
+  display: inline-block;
+}
+
+nav ul li a {
+  display: block;
+  min-width: 3em;
+  padding: .2em .4em;
+  background: slategray;
+  color: black;
+  text-align: center;
+  border-radius: .3em;
+  font-size: .85em;
+  text-transform: uppercase;
+  color: white;
+  letter-spacing: .1em;
+}
+
+nav ul li a:hover {
+  background: silver;
+  color: black;
+  text-decoration: none;
+}
+
+main {
+  margin: 2em 0 3em;
+}
+
+footer {
+  color: silver;
+  font-size: .85em;
+}
+
+footer strong {
+  font-size: 1.2em;
+  color: tomato;
+}
+
+footer code {
+  color: slategray;
+}
