@@ -43,9 +43,9 @@ function staticSiteGenerator(options) {
       highlight: highlightCode
     },
     prettyUrls: true,
-    regexpHtml: /\.html/i,
+    regexpHtml: /\.html$/i,
     regexpMarkdown: /\.(md|markdown)$/i,
-    regexpTemplate: /\.jade/i,
+    regexpTemplate: /\.jade$/i,
     renderTemplate: renderTemplate,
     renderMarkdown: renderMarkdown,
     slugify: true,
