@@ -29,7 +29,7 @@ function staticSiteGenerator(options) {
       templateCache = {};
 
   options = merge.recursive({
-    baseUrl: '/',
+    basePath: '/',
     data: {},
     defaultLayout: 'base.jade',
     jade: jade,
@@ -93,27 +93,28 @@ function staticSiteGenerator(options) {
    */
   function transformChunkData(chunk) {
     var matter = grayMatter(String(chunk.contents)),
-        urlPath = chunk.hasOwnProperty('data') && chunk.data.urlPath ?
-          chunk.data.urlPath : getUrlPath(chunk.relative),
-        url = path.normalize(path.join(options.baseUrl, urlPath));
+        relPath = chunk.hasOwnProperty('data') && chunk.data.relPath ?
+          chunk.data.relPath : getRelativePath(chunk.relative),
+        absPath = path.normalize(path.join(options.basePath, relPath));
     chunk.data = merge.recursive(
       {
-        baseUrl: options.baseUrl,
+        basePath: options.basePath,
+        relativePath: relPath,
+        path: absPath,
+        urlPath: options.prettyUrls ? path.dirname(absPath) + '/' : absPath,
+        srcBasePath: chunk.base,
+        srcRelativePath: chunk.relative,
+        srcPath: chunk.path,
         contents: '',
         draft: false,
-        layout: options.defaultLayout,
-        path: urlPath,
-        filename: chunk.path,
-        relativeFilename: chunk.relative,
-        url: options.prettyUrls ?
-          path.normalize(path.dirname(url) + '/') : url
+        layout: options.defaultLayout
       },
       options.data || {},
       chunk.data || {},
       matter.data || {}
     );
     chunk.contents = new Buffer(matter.content);
-    chunk.path = path.join(chunk.base, urlPath);
+    chunk.path = path.join(chunk.base, relPath);
     return chunk;
   }
 
@@ -129,7 +130,7 @@ function staticSiteGenerator(options) {
         contents = options.renderMarkdown(contents);
       }
       if (chunk.isTemplate) {
-        contents = options.renderTemplate(contents, chunk.data, chunk.data.filename);
+        contents = options.renderTemplate(contents, chunk.data, chunk.data.srcPath);
       }
       chunk.contents = new Buffer(contents);
       if (chunk.data.layout) applyLayout(chunk);
@@ -195,11 +196,11 @@ function staticSiteGenerator(options) {
   }
 
   /**
-   * transform a file path into an url
+   * transform a src file path into an relative url path
    * @param  {string} filePath file path
    * @return {string}          url
    */
-  function getUrlPath(filePath) {
+  function getRelativePath(filePath) {
     var urlPath = path.join(
       path.dirname(filePath),
       path.basename(filePath, path.extname(filePath))
