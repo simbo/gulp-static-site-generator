@@ -97,8 +97,8 @@ function staticSiteGenerator(options) {
    */
   function transformChunkData(chunk) {
     var matter = grayMatter(String(chunk.contents)),
-        relPath = chunk.hasOwnProperty('data') && chunk.data.relPath ?
-          chunk.data.relPath : getRelativePath(chunk.relative),
+        relPath = chunk.hasOwnProperty('data') && chunk.data.relativePath ?
+          chunk.data.relativePath : getRelativePath(chunk.relative),
         absPath = path.normalize(path.join(options.basePath, relPath));
     chunk.data = merge.recursive(
       {
