@@ -150,13 +150,10 @@ function staticSiteGenerator(options) {
    */
   function renderTemplate(contents, data, filename) {
     if (!templateCache.hasOwnProperty(contents)) {
-      templateCache[contents] = options.jade.compile(
-        contents,
-        merge.recursive({}, options.jadeOptions, {
-          filename: filename
-        })
-      );
+      var jadeOptions = merge.recursive({}, options.jadeOptions, {filename: filename});
+      templateCache[contents] = options.jade.compile(contents, jadeOptions);
     }
+    var locals = merge.recursive({}, data, {locals: locals});
     return templateCache[contents](data);
   }
 
