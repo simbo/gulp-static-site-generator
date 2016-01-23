@@ -51,27 +51,29 @@ gulp-static-site-generator
 
 ### Demo
 
-You can find an example implementation in [demo/](https://github.com/simbo/gulp-static-site-generator/tree/master/demo).
+You can find an example implementation in 
+[./demo](https://github.com/simbo/gulp-static-site-generator/tree/master/demo),
+in this plugin's repository.
 
 
 ## Setup and usage
 
-This module is a [gulp](https://github.com/gulpjs/gulp) plugin.
-
 Install `gulp-static-site-generator` using [npm](https://www.npmjs.com/).
 
-In your `gulpfile.js`:
+This module is a [gulp](https://github.com/gulpjs/gulp) plugin.
+You can use it in your `gulpfile.js`:
 
 ``` js
-var ssg = require('gulp-static-site-generator');
+var gulp = require('gulp'),
+    ssg = require('gulp-static-site-generator');
 
-var ssgOptions = {
+var options = {
   // your custom options
 };
 
 gulp.task('ssg', function() {
   return gulp.src('./src/site/**/*')
-    .pipe(ssg(ssgOptions))
+    .pipe(ssg(options))
     .pipe(gulp.dest('./dest'));
 });
 ```
@@ -167,7 +169,7 @@ Default:
 }
 ```
 
-[Options](http://jade-lang.com/api/) passed to `options.jade`.
+[Options](http://jade-lang.com/api/) passed to `options.jade.compile`.
 
 
 #### layoutPath
@@ -199,7 +201,7 @@ Default:
 }
 ```
 
-[Options](https://github.com/chjj/marked#options-1) passed to `options.marked`.
+[Options](https://github.com/chjj/marked#options-1) passed to `options.marked.setOptions`.
 
 
 #### passThrough
@@ -287,7 +289,9 @@ Type: *Function*
 Default: `renderMarkdown` ([see source](https://github.com/simbo/gulp-static-site-generator/blob/master/index.js))
 
 A function to render markdown to HTML, using *marked* by default. It accepts a 
-markdown `contents` string as the only argument.
+markdown `contents` string as the only argument. Beside being used to render 
+markdown files, this function is also referenced as `options.jade.filters.markdown`
+to render markdown blocks or includes in *jade* templates.
 
 When setting a custom markdown rendering function, the options `marked`, 
 `markedOptions` and `renderCode` won't have any effect.
@@ -335,10 +339,9 @@ or setting frontmatter in the file contents. By overriding `data.relativePath`,
 you can manipulate the files output URL path, which would normally be generated 
 from the source file's relative path.
 
-Assuming the source file `foo.jade` was globbed with `gulp.src` using 
-`./src/site/**.*` with `/bar` as current working directory, the *basic site 
-structure data* of this file using default options without overrides would look 
-like this:
+Assuming the source file `foo.jade` was globbed with `gulp.src('./src/site/**.*')`
+with `/bar` as current working directory, the *basic site structure data* of 
+this file using default options without overrides would look like this:
 
 ``` js
 {
