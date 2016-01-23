@@ -60,3 +60,17 @@ footer strong {
 footer code {
   color: slategray;
 }
+
+.data {
+  overflow-x: auto;
+  padding: 0.5em;
+  background: #23241f;
+}
+
+.data_key {
+  color: #e6db74;
+}
+
+.data_value {
+  color: #f8f8f2;
+}
