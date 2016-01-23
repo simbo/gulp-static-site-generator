@@ -9,6 +9,7 @@ gulp-static-site-generator
 
 - [About](#about)
   - [Features](#features)
+- [Setup and usage](#setup-and-usage)
 - [Options](#options)
   - [Defaults overview](#defaults-overview)
   - [Options properties](#options-properties)
@@ -35,6 +36,29 @@ gulp-static-site-generator
   - pass-through all files that are not markdown, templates or html
   - transform drafts only in development environment
   - customizable options and behavior
+
+
+## Setup and usage
+
+This module is a [gulp](https://github.com/gulpjs/gulp) plugin.
+
+Install `gulp-static-site-generator` using [npm](https://www.npmjs.com/).
+
+In your `gulpfile.js`:
+
+``` js
+var ssg = require('gulp-static-site-generator');
+
+var ssgOptions = {
+  // your custom options
+};
+
+gulp.task('ssg', function() {
+  return gulp.src('./src/site/**/*')
+    .pipe(ssg(ssgOptions))
+    .pipe(gulp.dest('./dest'));
+});
+```
 
 
 ## Options
