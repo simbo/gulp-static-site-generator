@@ -56,7 +56,7 @@ function staticSiteGenerator(options) {
     }
   }, options || {});
 
-  options.markedRenderer.code = options.renderCode;
+  options.markedOptions.renderer.code = options.renderCode;
   options.marked.setOptions(options.markedOptions);
   options.jade.filters.markdown = options.renderMarkdown;
 
