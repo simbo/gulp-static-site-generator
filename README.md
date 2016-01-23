@@ -84,6 +84,7 @@ gulp.task('ssg', function() {
   regexpHtml: /\.html$/i,
   regexpMarkdown: /\.(md|markdown)$/i,
   regexpTemplate: /\.jade$/i,
+  renderCode: renderCode,
   renderTemplate: renderTemplate,
   renderMarkdown: renderMarkdown,
   slugify: true,
@@ -191,6 +192,13 @@ Default: `/\.(md|markdown))$/i`
 Type: *RegExp*
 
 Default: `/\.jade$/i`
+
+
+#### renderCode
+
+Type: *Function*
+
+Default: `renderCode` ([see source](https://github.com/simbo/gulp-static-site-generator/blob/master/index.js))
 
 
 #### renderTemplate

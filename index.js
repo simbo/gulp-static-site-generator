@@ -46,6 +46,7 @@ function staticSiteGenerator(options) {
     regexpHtml: /\.html$/i,
     regexpMarkdown: /\.(md|markdown)$/i,
     regexpTemplate: /\.jade$/i,
+    renderCode: renderCode,
     renderTemplate: renderTemplate,
     renderMarkdown: renderMarkdown,
     slugify: true,
@@ -55,7 +56,7 @@ function staticSiteGenerator(options) {
     }
   }, options || {});
 
-  markedRenderer.code = renderCode;
+  options.markedRenderer.code = options.renderCode;
   options.marked.setOptions(options.markedOptions);
   options.jade.filters.markdown = options.renderMarkdown;
 
