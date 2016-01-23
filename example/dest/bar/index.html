@@ -15,12 +15,19 @@
 <li><a href="/bar/">bar</a></li>
 <li><a href="/bar/baz/">baz</a></li>
 <li><a href="/plain/">plain</a></li>
+<li><a href="/data/">data</a></li>
+<li><a href="/empty/">empty</a></li>
 </ul>
       </nav>
     </header>
-    <main><h1 id="some-markdown-in-jade">Some markdown in jade</h1>
-<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
-<pre><code class="lang-js"><span class="hljs-keyword">var</span> express = <span class="hljs-built_in">require</span>(<span class="hljs-string">'express'</span>);
+    <main>
+      <h1>Bar</h1>
+      <p>
+        This file has `layout: false` and can therefore extend a layout to change
+        multiple blocks.
+        
+      </p><h1 id="some-markdown-in-jade">Some markdown in jade</h1>
+<pre><code class="hljs js"><span class="hljs-keyword">var</span> express = <span class="hljs-built_in">require</span>(<span class="hljs-string">'express'</span>);
 <span class="hljs-keyword">var</span> app = express();
 
 app.get(<span class="hljs-string">'/'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">req, res</span>) </span>{
@@ -29,11 +36,10 @@ app.get(<span class="hljs-string">'/'</span>, <span class="hljs-function"><span 
 
 app.listen(<span class="hljs-number">3000</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
   <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Example app listening on port 3000!'</span>);
-});
-</code></pre>
+});</code></pre>
     </main>
     <footer>
-      <p><strong>★</strong> <code>/bar/</code> (generated from <code>bar.jade</code>)</p>
+      <p><strong>★</strong> <code>/bar/index.html</code> (generated from <code>/bar/index.html</code>)</p>
     </footer>
   </body>
 </html>
