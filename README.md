@@ -19,6 +19,7 @@ gulp-static-site-generator
 - [Options](#options)
   - [Defaults overview](#defaults-overview)
   - [Options properties](#options-properties)
+- [Template Data](#template-data)
 - [License](#license)
 
 <!-- /MarkdownTOC -->
@@ -112,12 +113,17 @@ Type: *String*
 
 Default: `'/'`
 
+The base path to generate URL paths. Note that this is only for URL path 
+generating and should not contain protocol or domain.
+
 
 #### data
 
 Type: *Object*
 
 Default: `{}`
+
+Global template data. See also readme section about [template data](#template-data).
 
 
 #### defaultLayout
@@ -126,12 +132,19 @@ Type: *String*
 
 Default: `'base.jade'`
 
+The default layout, relative to `options.layoutPath`. Will be used for template
+data's default `layout`, which can be overridden using frontmatter.
+See also readme section about [template data](#template-data).
+
 
 #### jade
 
 Type: *Object*
 
 Default: `require('jade')` (included dependency)
+
+*jade* module. You can set your own required *jade*, i.e. to use a specific 
+version or applying custom filters.
 
 
 #### jadeOptions
@@ -145,6 +158,8 @@ Default:
 }
 ```
 
+[Options](http://jade-lang.com/api/) passed to `options.jade`.
+
 
 #### layoutPath
 
@@ -152,12 +167,16 @@ Type: *String*
 
 Default: `'src/layouts'`
 
+Path to layouts, relative to `process.cwd()` or absolute.
+
 
 #### marked
 
 Type: *Function*
 
 Default: `require('marked')`
+
+*marked* module. You can set your own required marked to use a specific version.
 
 
 #### markedOptions
@@ -171,12 +190,20 @@ Default:
 }
 ```
 
+[Options](https://github.com/chjj/marked#options-1) passed to `options.marked`.
+
 
 #### prettyUrls
 
 Type: *Boolean*
 
 Default: `true`
+
+If set to `true`, all URL paths will be transformed to seo-friendly or so called
+"pretty" URLs (for example, `/foo.html` will be transformed to 
+`/foo/index.html`). If a file would generate an URL path, that is already owned
+by another file in buffer, output of this file is skipped and a warning is 
+displayed in console log.
 
 
 #### regexpHtml
@@ -185,12 +212,16 @@ Type: *RegExp*
 
 Default: `/\.html$/i`
 
+A regular expression to recognize a file as HTML by testing its relative file path.
+
 
 #### regexpMarkdown
 
 Type: *RegExp*
 
 Default: `/\.(md|markdown))$/i`
+
+A regular expression to recognize a file as Markdown by testing its relative file path.
 
 
 #### regexpTemplate
@@ -199,12 +230,20 @@ Type: *RegExp*
 
 Default: `/\.jade$/i`
 
+A regular expression to recognize a file as Template by testing its relative file path.
+
 
 #### renderCode
 
 Type: *Function*
 
 Default: `renderCode` ([see source](https://github.com/simbo/gulp-static-site-generator/blob/master/index.js))
+
+A function to render and highlight the string contents of a markdown sourcecode 
+block, which uses [highlight.js](https://github.com/isagalaev/highlight.js) for
+syntax highlighting by default. It accepts the two string parameters `code` and 
+`lang` and should return a string containing HTML. The function is used as code 
+renderer for the *marked* renderer referenced at `options.markedOptions.renderer`.
 
 
 #### renderTemplate
@@ -213,6 +252,14 @@ Type: *Function*
 
 Default: `renderTemplate` ([see source](https://github.com/simbo/gulp-static-site-generator/blob/master/index.js))
 
+A function to render a template string to HTML, using *jade* by default. It 
+accepts three parameters: a template `contents` string to render, an optional 
+object with template `data` and an optional absolute `filepath` string to 
+correctly include or extend other template files.
+
+When setting a custom template rendering function, the options `jade` and 
+`jadeOptions` won't have any effect.
+
 
 #### renderMarkdown
 
@@ -220,12 +267,21 @@ Type: *Function*
 
 Default: `renderMarkdown` ([see source](https://github.com/simbo/gulp-static-site-generator/blob/master/index.js))
 
+A function to render markdown to HTML, using *marked* by default. It accepts a 
+markdown `contents` string as the only argument.
+
+When setting a custom markdown rendering function, the options `marked`, 
+`markedOptions` and `renderCode` won't have any effect.
+
 
 #### slugify
 
 Type: *Boolean*
 
 Default: `true`
+
+If set to `true`, folder and file names within the generated URL path of a file
+will be sanitized by *slug*.
 
 
 #### slugOptions
@@ -237,6 +293,46 @@ Default:
 {
   mode: 'rfc3986',
   remove: /^\./g
+}
+```
+
+[Options](https://github.com/dodo/node-slug#options) passed to *slug*.
+
+
+## Template Data
+
+Template data will be passed to template rendering function to use as template
+variables when rendering.
+
+The template data for a file results from an recursive merge of *basic site 
+structure data*, `options.data`, a possible `data` property of the respective 
+file stream and the data extracted from the file's frontmatter using *gray-matter*.
+
+The automatically generated *basic site structure data* of a file source 
+`/foo.jade` with no frontmatter would look like this:
+
+``` js
+{
+  // url base path from options.basePath
+  basePath: '/',
+  // relative url path from base path (set this in frontmatter to override target path generation)
+  relativePath: 'data/index.html',
+  // full url path to file
+  path: '/data/index.html',
+  // prettified URL path (depending on `options.prettyUrls`)
+  urlPath: '/data/',
+  // absolute path to source base dir
+  srcBasePath: '/Users/simbo/Projects/gulp-static-site-generator/demo/src/site/',
+  // relative path to source file from source base dir
+  srcRelativePath: 'data.jade',
+  // absolute path to source file
+  srcPath: '/Users/simbo/Projects/gulp-static-site-generator/demo/src/site/data.jade',
+  // contents to use in a layout template
+  contents: '',
+  // is this a draft?
+  draft: false,
+  // path to layout template, relative to `options.layoutPath`
+  layout: 'base.jade'
 }
 ```
 
