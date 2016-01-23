@@ -5,7 +5,7 @@ var del = require('del'),
     serve = require('gulp-serve'),
     staticSiteGenerator = require('..');
 
-gulp.task('html', ['clean'], function() {
+gulp.task('ssg', ['clean'], function() {
   return gulp.src('./src/site/**/*')
     .pipe(staticSiteGenerator({
       jadeOptions: {
@@ -22,12 +22,12 @@ gulp.task('clean', function(done) {
 });
 
 gulp.task('watch', ['serve'], function() {
-  gulp.watch('./src/@(site|layouts)/**/*', ['html']);
+  gulp.watch('./src/@(site|layouts)/**/*', ['ssg']);
 });
 
-gulp.task('serve', ['html'], serve({
+gulp.task('serve', ['ssg'], serve({
   root: './dest',
   port: 8080
 }));
 
-gulp.task('default', ['html']);
+gulp.task('default', ['ssg']);
