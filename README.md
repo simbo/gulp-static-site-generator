@@ -19,7 +19,7 @@ gulp-static-site-generator
 - [Options](#options)
   - [Defaults overview](#defaults-overview)
   - [Options properties](#options-properties)
-- [Template Data](#template-data)
+  - [Template Data](#template-data)
 - [License](#license)
 
 <!-- /MarkdownTOC -->
@@ -38,6 +38,9 @@ gulp-static-site-generator
     (customizable markdown engine, defaults to [marked](https://github.com/chjj/marked))
   - extract frontmatter data from all markdown, template and html files
     (using [gray-matter](https://github.com/jonschlinkert/gray-matter))
+  - recursively merge `options.data`,
+    *[basic site structure data](#basic-site-structure-data)*,
+    stream data and frontmatter data and use it as template variables
   - sanitize file and folder names and create seo-friendly/pretty urls
     (using [slug](https://github.com/dodo/node-slug))
   - pass-through all files that are not markdown, templates or html
@@ -309,40 +312,40 @@ Default:
 [Options](https://github.com/dodo/node-slug#options) passed to *slug*.
 
 
-## Template Data
+### Template Data
 
-Template data will be passed to template rendering function to use as template
+Template data will be passed to `options.renderTemplate` to set template
 variables when rendering.
 
-The template data for a file results from an recursive merge of *basic site 
-structure data*, `options.data`, a possible `data` property of the respective 
-file stream and the data extracted from the file's frontmatter using *gray-matter*.
+The template data for a file results from an recursive merge of `options.data`,
+*basic site structure data*, the respective file stream's `data` property and 
+the data extracted from the file's frontmatter using *gray-matter*.
 
-The automatically generated *basic site structure data* of a file source 
-`/foo.jade` with no frontmatter would look like this:
+#### Basic site structure data
+
+The *basic site structure data* for each file is automatically generated during
+transformation and can be overridden by applying data to the respective stream 
+or setting frontmatter in the file contents. By overriding `data.relativePath`, 
+you can manipulate the files output URL path, which would normally be generated 
+from the source file's relative path.
+
+Assuming the source file `foo.jade` was globbed with `gulp.src` using 
+`./src/site/**.*` with `/bar` as current working directory, the *basic site 
+structure data* of this file using default options without overrides would look 
+like this:
 
 ``` js
 {
-  // url base path from options.basePath
-  basePath: '/',
-  // relative url path from base path (set this in frontmatter to override target path generation)
-  relativePath: 'data/index.html',
-  // full url path to file
-  path: '/data/index.html',
-  // prettified URL path (depending on `options.prettyUrls`)
-  urlPath: '/data/',
-  // absolute path to source base dir
-  srcBasePath: '/Users/simbo/Projects/gulp-static-site-generator/demo/src/site/',
-  // relative path to source file from source base dir
-  srcRelativePath: 'data.jade',
-  // absolute path to source file
-  srcPath: '/Users/simbo/Projects/gulp-static-site-generator/demo/src/site/data.jade',
-  // contents to use in a layout template
-  contents: '',
-  // is this a draft?
-  draft: false,
-  // path to layout template, relative to `options.layoutPath`
-  layout: 'base.jade'
+  basePath: '/',                      // url base path from options.basePath
+  relativePath: 'foo/index.html',     // relative url path from base path
+  path: '/foo/index.html',            // full url path to file
+  urlPath: '/foo/',                   // prettified URL path (depending on `options.prettyUrls`)
+  srcBasePath: '/bar/src/site/',      // absolute path to source base dir
+  srcRelativePath: 'foo.jade',        // relative path to source file from source base dir
+  srcPath: '/bar/src/site/foo.jade',  // absolute path to source file
+  contents: '',                       // contents to use in a layout template
+  draft: false,                       // is this a draft?
+  layout: 'base.jade'                 // path to layout template, relative to `options.layoutPath`
 }
 ```
 
