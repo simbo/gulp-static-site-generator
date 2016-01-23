@@ -1,8 +1,8 @@
 {
   "extends": "simbo/default/node",
   "rules": {
-    "complexity": [1, 7],
-    "max-statements": [1, 15],
+    "complexity": [1, 6],
+    "max-statements": [1, 16],
     "no-sync": 0,
     "vars-on-top": 0
   }
