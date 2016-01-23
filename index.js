@@ -26,7 +26,8 @@ function staticSiteGenerator(options) {
 
   var buffer = {},
       layoutCache = {},
-      templateCache = {};
+      templateCache = {},
+      markedRenderer = new marked.Renderer();
 
   options = merge.recursive({
     basePath: '/',
@@ -39,8 +40,7 @@ function staticSiteGenerator(options) {
     layoutPath: 'src/layouts',
     marked: marked,
     markedOptions: {
-      breaks: true,
-      highlight: highlightCode
+      renderer: markedRenderer
     },
     prettyUrls: true,
     regexpHtml: /\.html$/i,
@@ -55,6 +55,7 @@ function staticSiteGenerator(options) {
     }
   }, options || {});
 
+  markedRenderer.code = renderHighlightedCode;
   options.marked.setOptions(options.markedOptions);
   options.jade.filters.markdown = options.renderMarkdown;
 
@@ -182,20 +183,6 @@ function staticSiteGenerator(options) {
   }
 
   /**
-   * highlight a sourcecode string for given language
-   * @param  {string}   code sourcecode
-   * @param  {string}   lang language
-   * @return {string}        highlighted script in html
-   */
-  function highlightCode(code, lang) {
-    code = code.trim();
-    if (lang && highlightjs.getLanguage(lang)) {
-      return highlightjs.highlight(lang, code).value;
-    }
-    return highlightjs.highlightAuto(code).value;
-  }
-
-  /**
    * transform a src file path into an relative url path
    * @param  {string} filePath file path
    * @return {string}          url
@@ -234,6 +221,18 @@ function staticSiteGenerator(options) {
       };
     }
     return layoutCache[layout];
+  }
+
+  /**
+   * return rendered highlighted code
+   * @param {string}  code source code string
+   * @param {string}  lang source code language string
+   * @return {string}      html
+   */
+  function renderHighlightedCode(code, lang) {
+    lang = typeof lang === 'string' && highlightjs.getLanguage(lang) ? lang : false;
+    code = lang ? highlightjs.highlight(lang, code).value : highlightjs.highlightAuto(code).value;
+    return '<pre><code class="hljs' + (lang ? ' ' + lang : '') + '">' + code + '</code></pre>';
   }
 
   /**
