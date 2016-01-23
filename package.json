@@ -1,6 +1,6 @@
 {
   "name": "gulp-static-site-generator",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "A static site generator for gulp.",
   "main": "index.js",
   "scripts": {
