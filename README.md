@@ -15,6 +15,7 @@ gulp-static-site-generator
 
 - [About](#about)
   - [Features](#features)
+  - [Demo](#demo)
 - [Setup and usage](#setup-and-usage)
 - [Options](#options)
   - [Defaults overview](#defaults-overview)
@@ -46,6 +47,11 @@ gulp-static-site-generator
   - pass-through all files that are not markdown, templates or html
   - transform drafts only in development environment
   - customizable options and behavior
+
+
+### Demo
+
+You can find an example implementation in [demo/](https://github.com/simbo/gulp-static-site-generator/tree/master/demo).
 
 
 ## Setup and usage
