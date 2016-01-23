@@ -71,10 +71,11 @@ function staticSiteGenerator(options) {
   function transformChunk(chunk, encoding, done) {
     if (chunk.isNull()) return done();
     if (chunk.isStream()) return this.emit('error', new PluginError(logFlag, 'Streaming not supported'));
-    chunk.isMarkdown = options.regexpMarkdown.test(chunk.relative);
-    chunk.isTemplate = options.regexpTemplate.test(chunk.relative);
-    chunk.isHtml = options.regexpHtml.test(chunk.relative);
-    if (!(chunk.isMarkdown || chunk.isTemplate || chunk.isHtml)) {
+    if (
+      !(chunk.isMarkdown = options.regexpMarkdown.test(chunk.relative)) &&
+      !(chunk.isTemplate = options.regexpTemplate.test(chunk.relative)) &&
+      !(chunk.isHtml = options.regexpHtml.test(chunk.relative))
+    ) {
       return done(null, chunk);
     }
     transformChunkData(chunk);
