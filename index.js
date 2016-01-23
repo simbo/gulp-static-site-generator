@@ -42,6 +42,7 @@ function staticSiteGenerator(options) {
     markedOptions: {
       renderer: markedRenderer
     },
+    passThrough: true,
     prettyUrls: true,
     regexpHtml: /\.html$/i,
     regexpMarkdown: /\.(md|markdown)$/i,
@@ -77,7 +78,7 @@ function staticSiteGenerator(options) {
       !(chunk.isTemplate = options.regexpTemplate.test(chunk.relative)) &&
       !(chunk.isHtml = options.regexpHtml.test(chunk.relative))
     ) {
-      return done(null, chunk);
+      return options.passThrough ? done(null, chunk) : done();
     }
     transformChunkData(chunk);
     if (chunk.data.draft && process.env.NODE_ENV !== 'development') return done();

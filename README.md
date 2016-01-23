@@ -193,6 +193,16 @@ Default:
 [Options](https://github.com/chjj/marked#options-1) passed to `options.marked`.
 
 
+#### passThrough
+
+Type: *Boolean*
+
+Default: `true`
+
+If set to `true`, all files, which are not recognized as markdown, templates or 
+HTML, will be passed-through untransformed.
+
+
 #### prettyUrls
 
 Type: *Boolean*
