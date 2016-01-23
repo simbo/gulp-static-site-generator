@@ -79,6 +79,7 @@ function staticSiteGenerator(options) {
       return done(null, chunk);
     }
     transformChunkData(chunk);
+    if (chunk.data.draft && process.env.NODE_ENV !== 'development') return done();
     if (buffer.hasOwnProperty(chunk.relative)) {
       logDuplicate(chunk);
       return done();
