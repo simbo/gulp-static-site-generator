@@ -5,6 +5,12 @@ gulp-static-site-generator
 
 **WORK IN PROGRESS**
 
+[![npm Package Version](https://img.shields.io/npm/v/gulp-static-site-generator.svg?style=flat-square)](https://www.npmjs.com/package/gulp-static-site-generator)
+[![MIT License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](http://simbo.mit-license.org)
+
+[![Dependencies Status](https://img.shields.io/david/simbo/gulp-static-site-generator.svg?style=flat-square)](https://david-dm.org/simbo/gulp-static-site-generator)
+[![devDependencies Status](https://img.shields.io/david/dev/simbo/gulp-static-site-generator.svg?style=flat-square)](https://david-dm.org/simbo/gulp-static-site-generator#info=devDependencies)
+
 <!-- MarkdownTOC -->
 
 - [About](#about)
