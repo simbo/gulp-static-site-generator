@@ -20,7 +20,8 @@ gulp-static-site-generator
 - [Options](#options)
   - [Defaults overview](#defaults-overview)
   - [Options properties](#options-properties)
-  - [Template Data](#template-data)
+- [Template Data](#template-data)
+  - [Basic site structure data](#basic-site-structure-data)
 - [License](#license)
 
 <!-- /MarkdownTOC -->
@@ -52,8 +53,8 @@ gulp-static-site-generator
 ### Demo
 
 You can find an example implementation in 
-[./demo](https://github.com/simbo/gulp-static-site-generator/tree/master/demo),
-in this plugin's repository.
+[./demo](https://github.com/simbo/gulp-static-site-generator/tree/master/demo)
+within this plugin's repository.
 
 
 ## Setup and usage
@@ -222,9 +223,10 @@ Default: `true`
 
 If set to `true`, all URL paths will be transformed to seo-friendly or so called
 "pretty" URLs (for example, `/foo.html` will be transformed to 
-`/foo/index.html`). If a file would generate an URL path, that is already owned
-by another file in buffer, output of this file is skipped and a warning is 
-displayed in console log.
+`/foo/index.html`).
+
+If a file would generate an URL path, that is already owned by another file in 
+buffer, output of this file is skipped and a warning is displayed in console log.
 
 
 #### regexpHtml
@@ -261,10 +263,12 @@ Type: *Function*
 Default: `renderCode` ([see source](https://github.com/simbo/gulp-static-site-generator/blob/master/index.js))
 
 A function to render and highlight the string contents of a markdown sourcecode 
-block, which uses [highlight.js](https://github.com/isagalaev/highlight.js) for
-syntax highlighting by default. It accepts the two string parameters `code` and 
-`lang` and should return a string containing HTML. The function is used as code 
-renderer for the *marked* renderer referenced at `options.markedOptions.renderer`.
+block. The default function uses [highlight.js](https://github.com/isagalaev/highlight.js)
+for syntax highlighting. It accepts the two string parameters `code` and `lang` 
+and should return a string containing HTML. 
+
+The function is used as code renderer for the *marked* renderer referenced at 
+`options.markedOptions.renderer`.
 
 
 #### renderTemplate
@@ -276,7 +280,8 @@ Default: `renderTemplate` ([see source](https://github.com/simbo/gulp-static-sit
 A function to render a template string to HTML, using *jade* by default. It 
 accepts three parameters: a template `contents` string to render, an optional 
 object with template `data` and an optional absolute `filepath` string to 
-correctly include or extend other template files.
+correctly include or extend other template files. It should return a string 
+containing HTML.
 
 When setting a custom template rendering function, the options `jade` and 
 `jadeOptions` won't have any effect.
@@ -289,9 +294,12 @@ Type: *Function*
 Default: `renderMarkdown` ([see source](https://github.com/simbo/gulp-static-site-generator/blob/master/index.js))
 
 A function to render markdown to HTML, using *marked* by default. It accepts a 
-markdown `contents` string as the only argument. Beside being used to render 
-markdown files, this function is also referenced as `options.jade.filters.markdown`
-to render markdown blocks or includes in *jade* templates.
+markdown `contents` string as the only argument and should return a string 
+containing HTML.
+
+Beside being used to render markdown files, this function is also referenced as 
+`options.jade.filters.markdown` to render markdown blocks or includes in *jade* 
+templates.
 
 When setting a custom markdown rendering function, the options `marked`, 
 `markedOptions` and `renderCode` won't have any effect.
@@ -322,7 +330,7 @@ Default:
 [Options](https://github.com/dodo/node-slug#options) passed to *slug*.
 
 
-### Template Data
+## Template Data
 
 Template data will be passed to `options.renderTemplate` to set template
 variables when rendering.
@@ -331,13 +339,14 @@ The template data for a file results from an recursive merge of `options.data`,
 *basic site structure data*, the respective file stream's `data` property and 
 the data extracted from the file's frontmatter using *gray-matter*.
 
-#### Basic site structure data
+### Basic site structure data
 
 The *basic site structure data* for each file is automatically generated during
 transformation and can be overridden by applying data to the respective stream 
-or setting frontmatter in the file contents. By overriding `data.relativePath`, 
-you can manipulate the files output URL path, which would normally be generated 
-from the source file's relative path.
+or setting frontmatter in the file contents. 
+
+By overriding `data.relativePath`, you can manipulate the files output URL path,
+which would otherwise be generated from the source file's relative path.
 
 Assuming the source file `foo.jade` was globbed with `gulp.src('./src/site/**.*')`
 with `/bar` as current working directory, the *basic site structure data* of 
