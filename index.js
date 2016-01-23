@@ -101,7 +101,8 @@ function staticSiteGenerator(options) {
         relPath = chunk.hasOwnProperty('data') && chunk.data.relativePath ?
           chunk.data.relativePath : getRelativePath(chunk.relative),
         absPath = path.normalize(path.join(options.basePath, relPath));
-    chunk.data = merge.recursive(
+    chunk.data = merge.recursive({},
+      options.data || {},
       {
         basePath: options.basePath,
         relativePath: relPath,
@@ -114,7 +115,6 @@ function staticSiteGenerator(options) {
         draft: false,
         layout: options.defaultLayout
       },
-      options.data || {},
       chunk.data || {},
       matter.data || {}
     );
