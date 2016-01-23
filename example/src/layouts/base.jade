@@ -1,3 +1,4 @@
+- title = title ? title : '';
 doctype html
 html
 
@@ -5,7 +6,7 @@ html
     block head
       meta(charset='utf-8')
       meta(name='viewport', content='width=device-width, initial-scale=1')
-      title= (title ? title + ' | ' : '') + 'Example'
+      title= (title != '' ? title + ' | ' : '') + 'Example'
       block styles
         link(rel="stylesheet", href="/assets/example.css")
 
@@ -25,9 +26,10 @@ html
       main
         block main
           h1= title
-          | !{contents}
+          block contents
+            | !{contents}
 
       footer
         block footer
-          p #[strong ★] #[code= url] (generated from #[code= relativeFilename])
+          p #[strong ★] #[code= path] (generated from #[code= path])
 

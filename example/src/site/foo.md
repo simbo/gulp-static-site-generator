@@ -3,7 +3,7 @@ title: Foo
 layout: article.jade
 ---
 
-## Foo Bar
+## Markdown!
 
   - one
   - two
