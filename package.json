@@ -3,6 +3,19 @@
   "version": "0.3.1",
   "description": "A static site generator for gulp.",
   "main": "index.js",
+  "keywords": [
+    "gulp",
+    "gulpplugin",
+    "static",
+    "site",
+    "website",
+    "generator",
+    "ssg",
+    "markdown",
+    "jade",
+    "html",
+    "build"
+  ],
   "scripts": {
     "test": "mocha -R spec",
     "lint": "jshint ./lib/*.js & jscs ./lib/*.js",
