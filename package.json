@@ -1,6 +1,6 @@
 {
   "name": "gulp-static-site-generator",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A static site generator for gulp.",
   "main": "index.js",
   "scripts": {
@@ -23,6 +23,11 @@
   "os": [
     "darwin",
     "linux"
+  ],
+  "files": [
+    "index.js",
+    "LICENSE",
+    "README.md"
   ],
   "dependencies": {
     "gray-matter": "^2.0.2",
