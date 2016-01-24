@@ -1,6 +1,8 @@
 gulp-static-site-generator
 ==========================
 
+[![Join the chat at https://gitter.im/simbo/gulp-static-site-generator](https://badges.gitter.im/simbo/gulp-static-site-generator.svg)](https://gitter.im/simbo/gulp-static-site-generator?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
   > A static site generator for gulp supporting markdown, templates, pretty URLs and more.
 
 [![npm Package Version](https://img.shields.io/npm/v/gulp-static-site-generator.svg?style=flat-square)](https://www.npmjs.com/package/gulp-static-site-generator)
