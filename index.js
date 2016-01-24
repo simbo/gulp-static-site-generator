@@ -102,7 +102,7 @@ function staticSiteGenerator(options) {
           chunk.data.relativePath : getRelativePath(chunk.relative),
         absPath = path.normalize(path.join(options.basePath, relPath));
     chunk.data = merge.recursive({},
-      options.data || {},
+      options.data,
       {
         basePath: options.basePath,
         relativePath: relPath,
@@ -116,7 +116,7 @@ function staticSiteGenerator(options) {
         layout: options.defaultLayout
       },
       chunk.data || {},
-      matter.data || {}
+      matter.data
     );
     chunk.contents = new Buffer(matter.content);
     chunk.path = path.join(chunk.base, relPath);
@@ -222,8 +222,8 @@ function staticSiteGenerator(options) {
    * @return {object}          layout contents and path
    */
   function getLayout(layout) {
-    if (!layoutCache.hasOwnProperty(layout) || !layoutCache[layout]) {
       var layoutPath = path.join(
+    if (!layoutCache.hasOwnProperty(layout)) {
         path.isAbsolute(options.layoutPath) ?
           options.layoutPath : path.join(process.cwd(), options.layoutPath),
         layout
