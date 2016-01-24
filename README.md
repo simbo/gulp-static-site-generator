@@ -352,22 +352,22 @@ or setting frontmatter in the file contents.
 By overriding `data.relativePath`, you can manipulate the files output URL path,
 which would otherwise be generated from the source file's relative path.
 
-Assuming the source file `foo.jade` was globbed with `gulp.src('./src/site/**.*')`
+Assuming the source file `foo.jade` was globbed with `gulp.src('./src/**.*')`
 with `/bar` as current working directory, the *basic site structure data* of 
 this file using default options without overrides would look like this:
 
 ``` js
 {
-  basePath: '/',                      // url base path from options.basePath
-  relativePath: 'foo/index.html',     // relative url path from base path
-  path: '/foo/index.html',            // full url path to file
-  urlPath: '/foo/',                   // prettified URL path (depending on `options.prettyUrls`)
-  srcBasePath: '/bar/src/site/',      // absolute path to source base dir
-  srcRelativePath: 'foo.jade',        // relative path to source file from source base dir
-  srcPath: '/bar/src/site/foo.jade',  // absolute path to source file
-  contents: '',                       // contents to use in a layout template
-  draft: false,                       // is this a draft?
-  layout: 'base.jade'                 // path to layout template, relative to `options.layoutPath`
+  basePath: '/',                  // url base path from options.basePath
+  relativePath: 'foo/index.html', // relative url path from base path
+  path: '/foo/index.html',        // full url path to file
+  urlPath: '/foo/',               // prettified URL path (depending on `options.prettyUrls`)
+  srcBasePath: '/bar/src/',       // absolute path to source base dir
+  srcRelativePath: 'foo.jade',    // relative path to source file from source base dir
+  srcPath: '/bar/src/foo.jade',   // absolute path to source file
+  contents: '',                   // contents to use in a layout template
+  draft: false,                   // is this a draft?
+  layout: false                   // path to layout template, relative to `options.layoutPath`
 }
 ```
 
