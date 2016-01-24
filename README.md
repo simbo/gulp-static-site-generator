@@ -1,7 +1,7 @@
 gulp-static-site-generator
 ==========================
 
-  > A static site generator for gulp.
+  > A static site generator for gulp supporting markdown, templates, pretty URLs and more.
 
 [![npm Package Version](https://img.shields.io/npm/v/gulp-static-site-generator.svg?style=flat-square)](https://www.npmjs.com/package/gulp-static-site-generator)
 [![MIT License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](http://simbo.mit-license.org)
@@ -43,9 +43,9 @@ gulp-static-site-generator
     (customizable markdown engine, defaults to [marked](https://github.com/chjj/marked))
   - extract frontmatter data from all markdown, template and html files
     (using [gray-matter](https://github.com/jonschlinkert/gray-matter))
-  - recursively merge `options.data`,
+  - provide recursively merged `options.data`,
     *[basic site structure data](#basic-site-structure-data)*,
-    stream data and frontmatter data and use it as template variables
+    stream data and frontmatter data for template usage
   - sanitize file and folder names and create seo-friendly/pretty urls
     (using [slug](https://github.com/dodo/node-slug))
   - pass-through all files that are not markdown, templates or html

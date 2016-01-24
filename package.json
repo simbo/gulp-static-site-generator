@@ -1,7 +1,7 @@
 {
   "name": "gulp-static-site-generator",
   "version": "0.3.1",
-  "description": "A static site generator for gulp.",
+  "description": "A static site generator for gulp supporting markdown, templates, pretty URLs and more.",
   "main": "index.js",
   "keywords": [
     "gulp",
