@@ -249,11 +249,10 @@ function staticSiteGenerator(options) {
    */
   function logDuplicate(chunk) {
     log(logFlag,
-      chalk.red('WARNING: ') +
-      chalk.yellow(chunk.data.relativeFilename) +
-      ' outputs to same url as ' +
-      chalk.yellow(buffer[chunk.relative].data.relativeFilename) +
-      '. ' + chalk.red('Skipping...')
+      chalk.black.bgYellow('WARNING') + ' skipping ' +
+      chalk.magenta(chunk.data.srcRelativePath) +
+      ' as it would output to same path as ' +
+      chalk.magenta(buffer[chunk.relative].data.srcRelativePath)
     );
   }
 
