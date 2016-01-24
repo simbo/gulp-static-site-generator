@@ -1,0 +1,6 @@
+{
+  "extends": "simbo/default/node",
+  "env": {
+    "mocha": true
+  }
+}

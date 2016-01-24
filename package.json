@@ -56,7 +56,9 @@
     "codeclimate-test-reporter": "^0.3.0",
     "eslint": "^1.10.3",
     "eslint-config-simbo": "^0.2.0",
+    "gulp": "^3.9.0",
     "istanbul": "^0.4.2",
-    "mocha": "^2.3.4"
+    "mocha": "^2.3.4",
+    "stream-assert": "^2.0.3"
   }
 }
