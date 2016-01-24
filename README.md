@@ -5,6 +5,7 @@ gulp-static-site-generator
 
 [![npm Package Version](https://img.shields.io/npm/v/gulp-static-site-generator.svg?style=flat-square)](https://www.npmjs.com/package/gulp-static-site-generator)
 [![MIT License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](http://simbo.mit-license.org)
+[![Gitter](https://img.shields.io/gitter/room/simbo/gulp-static-site-generator.svg?style=flat-square)](https://gitter.im/simbo/gulp-static-site-generator)
 
 [![Travis Build Status](https://img.shields.io/travis/simbo/gulp-static-site-generator/master.svg?style=flat-square)](https://travis-ci.org/simbo/gulp-static-site-generator)
 [![Code Climate Test Coverage](https://img.shields.io/codeclimate/coverage/github/simbo/gulp-static-site-generator.svg?style=flat-square)](https://codeclimate.com/github/simbo/gulp-static-site-generator)
