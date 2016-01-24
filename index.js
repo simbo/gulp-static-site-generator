@@ -207,7 +207,7 @@ function staticSiteGenerator(options) {
     );
     if (options.slugify) {
       urlPath = urlPath.split('/').map(function(part) {
-        return slug(part, options.slug);
+        return slug(part, options.slugOptions);
       }).join('/');
     }
     urlPath += !options.prettyUrls || (/(^|\/)index$/i).test(urlPath) ?
