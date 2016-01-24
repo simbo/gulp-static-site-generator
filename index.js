@@ -222,14 +222,20 @@ function staticSiteGenerator(options) {
    * @return {object}          layout contents and path
    */
   function getLayout(layout) {
-      var layoutPath = path.join(
     if (!layoutCache.hasOwnProperty(layout)) {
+      var layoutContents = false,
+          layoutPath = path.join(
         path.isAbsolute(options.layoutPath) ?
           options.layoutPath : path.join(process.cwd(), options.layoutPath),
         layout
       );
+      try {
+        layoutContents = fs.readFileSync(layoutPath, 'utf8');
+      } catch (err) {
+        throw new PluginError(logFlag, 'Could not read layout: \'' + layoutPath + '\'\n');
+      }
       layoutCache[layout] = {
-        contents: fs.readFileSync(layoutPath, 'utf8'),
+        contents: layoutContents,
         path: layoutPath
       };
     }
