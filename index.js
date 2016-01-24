@@ -32,12 +32,12 @@ function staticSiteGenerator(options) {
   options = merge.recursive({
     basePath: '/',
     data: {},
-    defaultLayout: 'base.jade',
+    defaultLayout: false,
     jade: jade,
     jadeOptions: {
       basedir: path.join(process.cwd(), 'src')
     },
-    layoutPath: 'src/layouts',
+    layoutPath: 'layouts',
     marked: marked,
     markedOptions: {
       renderer: markedRenderer

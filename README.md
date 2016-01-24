@@ -89,12 +89,12 @@ gulp.task('ssg', function() {
 {
   basePath: '/',
   data: {},
-  defaultLayout: 'base.jade',
+  defaultLayout: false,
   jade: jade,
   jadeOptions: {
     basedir: path.join(process.cwd(), 'src')
   },
-  layoutPath: 'src/layouts',
+  layoutPath: 'layouts',
   marked: marked,
   markedOptions: {
     renderer: renderer
@@ -142,10 +142,10 @@ Global template data. See also readme section about [template data](#template-da
 
 Type: *String*
 
-Default: `'base.jade'`
+Default: `false`
 
-The default layout, relative to `options.layoutPath`. Will be used for template
-data's default `layout`, which can be overridden using frontmatter.
+Path to default layout, relative to `options.layoutPath`. Will be used for 
+template data's `layout` property, which can be overridden using frontmatter.
 See also readme section about [template data](#template-data).
 
 
@@ -177,7 +177,7 @@ Default:
 
 Type: *String*
 
-Default: `'src/layouts'`
+Default: `'layouts'`
 
 Path to layouts, relative to `process.cwd()` or absolute.
 
