@@ -1,0 +1,19 @@
+language: node_js
+node_js:
+- '5'
+- '4.2'
+- '0.12'
+deploy:
+  provider: npm
+  email: simbo@simbo.de
+  api_key: ${NPM_API_KEY}
+  on:
+    tags: true
+    repo: simbo/gulp-static-site-generator
+after_script:
+- npm run cover
+- npm run codeclimate
+sudo: false
+env:
+  global:
+    secure: WTO38mEfqQUb7YNin142SaHzr01vkxct4LQtg8cWSmF4c9Lh94gH6FJRTWY+1wNSQVtbmaMnn6rqnMTGahRDO+H0ZGblgQVWHQUKDRe783OUUQkmoCb3ICFrweJ4WKVkVFi5dBzNZYAzG/UHnVcz/VnnZ8uOAkyaLdfZa4tJOJ1JbPKEXA0A3jlle+DPEwFwziDz5HX921cTNExzudF3p2PML5TvvpksuKyaYplM6ADw3z2fPu+MRAHTrDp5yS9Rh6Olk9mH5+QHZ1bI0QGwKaFDOMVcfjoryU0Z3DkDnSoZ2Ej+XKtshMiw8hAxHX8xJvcxgAhE8Jfl0XEGNUU2gVfQnet6q2nRATVsxoM51oREEWZNeki4jX09cUqQG/aPidj9rrXZocGetJxaFpWvjG1DsFR+v/nDrtTDKXxafx5NypsakBoY9rt+oR+XHRTF0WZaFAlrvx9xuulkaAwiRNpgnmu9Axo7XpIvG99IomapYEFqz7xM5Z44JNYA+ESeVmX47rEig2kGrwXQ8Pgpo/ZrthPVgmr1MtQe2aMLvs+jgABf5A7Q57qyIBUiu60g/t4hhVX4plmh51Jly6OZpzGq9cCA1DVOaFglmFuLeLcB7UDM+/wGtJ9flZ/orw0/H/PH3jjPBk7YTijX5GkFeGRxTSF+Y9xzBXsvWTD9RSA=

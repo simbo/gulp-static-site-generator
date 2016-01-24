@@ -258,5 +258,4 @@ describe('gulp-static-site-generator', function() {
       .pipe(streamAssert.end(done));
   });
 
-
 });
