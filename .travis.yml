@@ -6,7 +6,7 @@ node_js:
 notifications:
   webhooks:
     urls:
-    - "${GITTER_WEBHOOK_URL}"
+    - https://webhooks.gitter.im/e/f97030d9bd589dd13aa3
     on_success: always
     on_failure: always
     on_start: never
