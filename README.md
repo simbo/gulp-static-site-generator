@@ -8,7 +8,7 @@ gulp-static-site-generator
 [![Gitter](https://img.shields.io/gitter/room/simbo/gulp-static-site-generator.svg?style=flat-square)](https://gitter.im/simbo/gulp-static-site-generator)
 
 [![Travis Build Status](https://img.shields.io/travis/simbo/gulp-static-site-generator/master.svg?style=flat-square)](https://travis-ci.org/simbo/gulp-static-site-generator)
-[![Code Climate Test Coverage](https://img.shields.io/codeclimate/coverage/github/simbo/gulp-static-site-generator.svg?style=flat-square)](https://codeclimate.com/github/simbo/gulp-static-site-generator)
+[![Codecov Test Coverage](https://img.shields.io/codecov/c/github/simbo/gulp-static-site-generator.svg?style=flat-square)](https://codecov.io/github/simbo/gulp-static-site-generator)
 
 [![Dependencies Status](https://img.shields.io/david/simbo/gulp-static-site-generator.svg?style=flat-square)](https://david-dm.org/simbo/gulp-static-site-generator)
 [![devDependencies Status](https://img.shields.io/david/dev/simbo/gulp-static-site-generator.svg?style=flat-square)](https://david-dm.org/simbo/gulp-static-site-generator#info=devDependencies)
