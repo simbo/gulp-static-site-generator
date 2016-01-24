@@ -21,7 +21,7 @@
     "lint": "jshint ./lib/*.js & jscs ./lib/*.js",
     "cover": "istanbul cover ./node_modules/.bin/_mocha -- -R spec",
     "watch": "mocha -R spec -w",
-    "codecov": "./node_modules/codecov.io/bin/codecov",
+    "codecov": "codecov",
     "codeclimate": "codeclimate-test-reporter < coverage/lcov.info"
   },
   "repository": {
