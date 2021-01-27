@@ -1,0 +1,16 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: daily
+      time: "20:00"
+      # timezone: Asia/Ho_Chi_Minh
+    # assignees:
+    #   - "LocTran016"
+    labels:
+      - "upgrade"
+      - "dependencies"
+    # reviewers:
+    #   - "LocTran016"
+    # target-branch: "develop"
