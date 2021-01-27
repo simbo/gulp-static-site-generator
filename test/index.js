@@ -1,3 +1,6 @@
+/* eslint-disable max-statements */
+/* eslint-disable require-jsdoc */
+/* eslint-disable no-process-env */
 'use strict';
 
 var assert = require('assert'),
