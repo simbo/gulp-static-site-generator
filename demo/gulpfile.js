@@ -8,9 +8,9 @@ var del = require('del'),
 gulp.task('ssg', ['clean'], function() {
   return gulp.src('./src/site/**/*')
     .pipe(staticSiteGenerator({
-      defaultLayout: 'base.jade',
+      defaultLayout: 'base.pug',
       layoutPath: 'src/layouts',
-      jadeOptions: {
+      pugOptions: {
         pretty: true
       }
     }))

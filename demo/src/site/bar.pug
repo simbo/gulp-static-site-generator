@@ -3,7 +3,7 @@ title: Bar
 layout: false
 ---
 
-extends /layouts/base.jade
+extends /layouts/base.pug
 
 block append styles
   link(rel="stylesheet", href="/assets/highlight.css")
@@ -15,7 +15,7 @@ block contents
     multiple blocks.
 
   :markdown
-    # Some markdown in jade
+    # Some markdown in pug
 
     ``` js
     var express = require('express');

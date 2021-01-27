@@ -39,7 +39,7 @@ gulp-static-site-generator
 ### Features
 
   - render templates to html
-    (customizable template engine, defaults to [jade](https://github.com/pugjs/jade))
+    (customizable template engine, defaults to [pug](https://github.com/pugjs/pug))
   - render markdown to html and wrap it in a layout template
     (customizable markdown engine, defaults to [marked](https://github.com/chjj/marked))
   - extract frontmatter data from all markdown, template and html files
@@ -94,8 +94,8 @@ gulp.task('ssg', function() {
   basePath: '/',
   data: {},
   defaultLayout: false,
-  jade: jade,
-  jadeOptions: {
+  pug: pug,
+  pugOptions: {
     basedir: path.join(process.cwd(), 'src')
   },
   layoutPath: 'layouts',
@@ -106,7 +106,7 @@ gulp.task('ssg', function() {
   prettyUrls: true,
   regexpHtml: /\.html$/i,
   regexpMarkdown: /\.(md|markdown)$/i,
-  regexpTemplate: /\.jade$/i,
+  regexpTemplate: /\.pug$/i,
   renderCode: renderCode,
   renderTemplate: renderTemplate,
   renderMarkdown: renderMarkdown,
@@ -153,17 +153,17 @@ template data's `layout` property, which can be overridden using frontmatter.
 See also readme section about [template data](#template-data).
 
 
-#### jade
+#### pug
 
 Type: *Object*
 
-Default: `require('jade')` (included dependency)
+Default: `require('pug')` (included dependency)
 
-*jade* module. You can set your own required *jade*, i.e. to use a specific 
+*pug* module. You can set your own required *pug*, i.e. to use a specific 
 version or applying custom filters.
 
 
-#### jadeOptions
+#### pugOptions
 
 Type: *Object*
 
@@ -174,7 +174,7 @@ Default:
 }
 ```
 
-[Options](http://jade-lang.com/api/) passed to `options.jade.compile`.
+[Options](http://pug-lang.com/api/) passed to `options.pug.compile`.
 
 
 #### layoutPath
@@ -255,7 +255,7 @@ A regular expression to recognize a file as Markdown by testing its relative fil
 
 Type: *RegExp*
 
-Default: `/\.jade$/i`
+Default: `/\.pug$/i`
 
 A regular expression to recognize a file as Template by testing its relative file path.
 
@@ -281,14 +281,14 @@ Type: *Function*
 
 Default: `renderTemplate` ([see source](https://github.com/simbo/gulp-static-site-generator/blob/master/index.js))
 
-A function to render a template string to HTML, using *jade* by default. It 
+A function to render a template string to HTML, using *pug* by default. It 
 accepts three parameters: a template `contents` string to render, an optional 
 object with template `data` and an optional absolute `filepath` string to 
 correctly include or extend other template files. It should return a string 
 containing HTML.
 
-When setting a custom template rendering function, the options `jade` and 
-`jadeOptions` won't have any effect.
+When setting a custom template rendering function, the options `pug` and 
+`pugOptions` won't have any effect.
 
 
 #### renderMarkdown
@@ -302,7 +302,7 @@ markdown `contents` string as the only argument and should return a string
 containing HTML.
 
 Beside being used to render markdown files, this function is also referenced as 
-`options.jade.filters.markdown` to render markdown blocks or includes in *jade* 
+`options.pug.filters.markdown` to render markdown blocks or includes in *pug* 
 templates.
 
 When setting a custom markdown rendering function, the options `marked`, 
@@ -352,7 +352,7 @@ or setting frontmatter in the file contents.
 By overriding `data.relativePath`, you can manipulate the files output URL path,
 which would otherwise be generated from the source file's relative path.
 
-Assuming the source file `foo.jade` was globbed with `gulp.src('./src/**.*')`
+Assuming the source file `foo.pug` was globbed with `gulp.src('./src/**.*')`
 with `/bar` as current working directory, the *basic site structure data* of 
 this file using default options without overrides would look like this:
 
@@ -363,8 +363,8 @@ this file using default options without overrides would look like this:
   path: '/foo/index.html',        // full url path to file
   urlPath: '/foo/',               // prettified URL path (depending on `options.prettyUrls`)
   srcBasePath: '/bar/src/',       // absolute path to source base dir
-  srcRelativePath: 'foo.jade',    // relative path to source file from source base dir
-  srcPath: '/bar/src/foo.jade',   // absolute path to source file
+  srcRelativePath: 'foo.pug',    // relative path to source file from source base dir
+  srcPath: '/bar/src/foo.pug',   // absolute path to source file
   contents: '',                   // contents to use in a layout template
   draft: false,                   // is this a draft?
   layout: false                   // path to layout template, relative to `options.layoutPath`

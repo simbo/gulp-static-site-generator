@@ -1,6 +1,6 @@
 ---
 title: Foo
-layout: article.jade
+layout: article.pug
 ---
 
 ## Markdown!
