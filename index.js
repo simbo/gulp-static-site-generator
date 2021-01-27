@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 'use strict';
 
 var fs = require('fs'),
@@ -5,7 +6,7 @@ var fs = require('fs'),
 
 var grayMatter = require('gray-matter'),
     gUtil = require('gulp-util'),
-    jade = require('jade'),
+    pug = require('pug'),
     marked = require('marked'),
     merge = require('merge'),
     highlightjs = require('highlight.js'),
@@ -33,8 +34,8 @@ function staticSiteGenerator(options) {
     basePath: '/',
     data: {},
     defaultLayout: false,
-    jade: jade,
-    jadeOptions: {
+    pug: pug,
+    pugOptions: {
       basedir: path.join(process.cwd(), 'src')
     },
     layoutPath: 'layouts',
@@ -46,7 +47,7 @@ function staticSiteGenerator(options) {
     prettyUrls: true,
     regexpHtml: /\.html$/i,
     regexpMarkdown: /\.(md|markdown)$/i,
-    regexpTemplate: /\.jade$/i,
+    regexpTemplate: /\.pug$/i,
     renderCode: renderCode,
     renderTemplate: renderTemplate,
     renderMarkdown: renderMarkdown,
@@ -59,7 +60,7 @@ function staticSiteGenerator(options) {
 
   options.markedOptions.renderer.code = options.renderCode;
   options.marked.setOptions(options.markedOptions);
-  options.jade.filters.markdown = options.renderMarkdown;
+  options.pug.filters.markdown = options.renderMarkdown;
 
   return through.obj(transformChunk);
 
@@ -154,8 +155,8 @@ function staticSiteGenerator(options) {
    */
   function renderTemplate(contents, data, filename) {
     if (!templateCache.hasOwnProperty(contents)) {
-      var jadeOptions = merge.recursive({}, options.jadeOptions, {filename: filename});
-      templateCache[contents] = options.jade.compile(contents, jadeOptions);
+      var pugOptions = merge.recursive({}, options.pugOptions, {filename: filename});
+      templateCache[contents] = options.pug.compile(contents, pugOptions);
     }
     var locals = merge.recursive({}, data, {locals: locals});
     return templateCache[contents](data);
@@ -208,7 +209,8 @@ function staticSiteGenerator(options) {
     if (options.slugify) {
       urlPath = urlPath.split('/').map(function(part) {
         return slug(part, options.slugOptions);
-      }).join('/');
+      })
+        .join('/');
     }
     urlPath += !options.prettyUrls || (/(^|\/)index$/i).test(urlPath) ?
       '.html' : '/index.html';
@@ -225,10 +227,10 @@ function staticSiteGenerator(options) {
     if (!layoutCache.hasOwnProperty(layout)) {
       var layoutContents = false,
           layoutPath = path.join(
-        path.isAbsolute(options.layoutPath) ?
-          options.layoutPath : path.join(process.cwd(), options.layoutPath),
-        layout
-      );
+            path.isAbsolute(options.layoutPath) ?
+              options.layoutPath : path.join(process.cwd(), options.layoutPath),
+            layout
+          );
       try {
         layoutContents = fs.readFileSync(layoutPath, 'utf8');
       } catch (err) {

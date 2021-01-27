@@ -1,6 +1,6 @@
 ---
 title: Foo
-layout: article.jade
+layout: article.pug
 bar: [1, 2, 3]
 baz:
 - 1

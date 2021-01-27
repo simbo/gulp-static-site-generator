@@ -1,3 +1,6 @@
+/* eslint-disable max-statements */
+/* eslint-disable require-jsdoc */
+/* eslint-disable no-process-env */
 'use strict';
 
 var assert = require('assert'),
@@ -30,7 +33,7 @@ function assertChunk(assertions) {
 describe('gulp-static-site-generator', function() {
 
   it('should throw an error on a streamed file', function(done) {
-    fixtures('template.jade', {buffer: false})
+    fixtures('template.pug', {buffer: false})
       .pipe(streamAssert.length(1))
       .pipe(ssg())
       .on('error', function(err) {
@@ -40,15 +43,15 @@ describe('gulp-static-site-generator', function() {
   });
 
   it('should not pass-through files with no content', function(done) {
-    fixtures('template.jade', {read: false})
+    fixtures('template.pug', {read: false})
       .pipe(streamAssert.length(1))
       .pipe(ssg())
       .pipe(streamAssert.length(0))
       .pipe(streamAssert.end(done));
   });
 
-  it('should transform a jade file into html with seo-friendly url', function(done) {
-    fixtures('template.jade')
+  it('should transform a pug file into html with seo-friendly url', function(done) {
+    fixtures('template.pug')
       .pipe(streamAssert.length(1))
       .pipe(ssg())
       .pipe(streamAssert.first(assertChunk({
@@ -81,7 +84,7 @@ describe('gulp-static-site-generator', function() {
   });
 
   it('should allow to disable generating seo-friendly URLs', function(done) {
-    fixtures('template.jade')
+    fixtures('template.pug')
       .pipe(streamAssert.length(1))
       .pipe(ssg({
         prettyUrls: false
@@ -131,7 +134,7 @@ describe('gulp-static-site-generator', function() {
   });
 
   it('should allow output path manipulation via chunk.data.relativePath', function(done) {
-    fixtures('template.jade')
+    fixtures('template.pug')
       .pipe(streamAssert.length(1))
       .pipe(through.obj(function(chunk, enc, cb) {
         chunk.data = chunk.data || {};
@@ -165,16 +168,16 @@ describe('gulp-static-site-generator', function() {
   });
 
   it('should throw an error if default layout is not found', function(done) {
-    fixtures('template.jade')
+    fixtures('template.pug')
       .pipe(streamAssert.length(1))
       .pipe(ssg({
-        defaultLayout: 'base.jade'
+        defaultLayout: 'base.pug'
       }))
       .on('error', function(err) {
         assert.equal(err.message.trim(),
           'Could not read layout: \'' +
           path.dirname(__dirname) +
-          '/layouts/base.jade\''
+          '/layouts/base.pug\''
         );
         done();
       });
@@ -184,7 +187,7 @@ describe('gulp-static-site-generator', function() {
     fixtures('@(template|markdown).*')
       .pipe(streamAssert.length(2))
       .pipe(ssg({
-        defaultLayout: 'base.jade',
+        defaultLayout: 'base.pug',
         layoutPath: 'test/fixtures/layouts'
       }))
       .pipe(streamAssert.all(assertChunk({
@@ -197,7 +200,7 @@ describe('gulp-static-site-generator', function() {
     fixtures('template.*')
       .pipe(streamAssert.length(1))
       .pipe(ssg({
-        defaultLayout: 'base.jade',
+        defaultLayout: 'base.pug',
         layoutPath: path.join(__dirname, 'fixtures/layouts')
       }))
       .pipe(streamAssert.first(assertChunk({
@@ -210,7 +213,7 @@ describe('gulp-static-site-generator', function() {
     fixtures('frontmatter.md')
       .pipe(streamAssert.length(1))
       .pipe(ssg({
-        defaultLayout: 'base.jade',
+        defaultLayout: 'base.pug',
         layoutPath: 'test/fixtures/layouts'
       }))
       .pipe(streamAssert.first(assertChunk({
