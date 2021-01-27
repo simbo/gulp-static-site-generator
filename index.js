@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 'use strict';
 
 var fs = require('fs'),
@@ -208,7 +209,8 @@ function staticSiteGenerator(options) {
     if (options.slugify) {
       urlPath = urlPath.split('/').map(function(part) {
         return slug(part, options.slugOptions);
-      }).join('/');
+      })
+        .join('/');
     }
     urlPath += !options.prettyUrls || (/(^|\/)index$/i).test(urlPath) ?
       '.html' : '/index.html';
@@ -225,10 +227,10 @@ function staticSiteGenerator(options) {
     if (!layoutCache.hasOwnProperty(layout)) {
       var layoutContents = false,
           layoutPath = path.join(
-        path.isAbsolute(options.layoutPath) ?
-          options.layoutPath : path.join(process.cwd(), options.layoutPath),
-        layout
-      );
+            path.isAbsolute(options.layoutPath) ?
+              options.layoutPath : path.join(process.cwd(), options.layoutPath),
+            layout
+          );
       try {
         layoutContents = fs.readFileSync(layoutPath, 'utf8');
       } catch (err) {
